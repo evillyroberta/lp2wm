@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testar Token</title>
+</head>
+<body>
+    <h1>Testar Token com GET</h1>
+    <button id="testTokenBtn">Enviar Token</button>
+    <p id="response"></p>
+
+    <script>
+        document.getElementById('testTokenBtn').addEventListener('click', async () => {
+            const token = localStorage.getItem('token'); // Pega o token do localStorage
+            
+            if (!token) {
+                document.getElementById('response').textContent = 'Token não encontrado no localStorage!';
+                return;
+            }
+
+            try {
+                const response = await fetch('/teste', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.text(); 
+                    document.getElementById('response').textContent = `Resposta do servidor: ${data}`;
+                } else {
+                    document.getElementById('response').textContent = `Erro: ${response.status}`;
+                }
+            } catch (error) {
+                document.getElementById('response').textContent = `Erro na requisição: ${error}`;
+            }
+        });
+    </script>
+</body>
+</html>

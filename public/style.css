@@ -4,58 +4,75 @@
     box-sizing: border-box;
 }
 
- 
-nav {
-    background-color: #333;
-}
-
-.menu {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.menu li {
-    flex: 1;
-}
-
-.menu a {
-    display: block;
-    padding: 14px 20px;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-}
-
-
-
-
 body {
     font-family: Arial, sans-serif;
     background-image: url(image.png);
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
+    flex-direction: column;
+    align-items: center;
     min-height: 100vh;
 }
 
+/* Menu ocupa a parte superior da tela */
+nav {
+    background-color: #370d5f;
+    width: 100%;
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+}
+
+.menu {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    flex: 1; /* Cada item ocupa a mesma fração do menu */
+    text-align: center;
+}
+
+.menu a {
+    display: block;
+    padding: 10px 0;
+    color: white;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    background-color: #66097236;
+    border-radius: 5px;
+}
+
+/* Contêiner principal abaixo do menu */
 .container {
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     background-color: #fff;
-    padding: 70px;
+    padding: 20px;
+    margin-top: 20px; /* Espaço entre o menu e o contêiner */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 h1 {
     font-family: Comic Sans MS, cursive, sans-serif; 
-    text-align: center;
-    margin-bottom: 30px;
-    color: #402188;
+    text-align: left;
+    margin-left: 10px;
+    margin-bottom: 15px;
+    color: #fff;
+}
 
+h2 {
+    font-family: Comic Sans MS, cursive, sans-serif; 
+    text-align: left;
+    margin-left: 580px;
+    margin-bottom: 15px;
+    color: #fff;
 }
 
 form {
@@ -83,7 +100,7 @@ button {
 }
 
 button:hover {
-    background-color: #402188;
+    background-color: #5e2ccf;
 }
 
 .cards-container {

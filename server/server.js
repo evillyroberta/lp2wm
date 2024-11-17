@@ -4,6 +4,9 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { PrismaClient } from '@prisma/client';
+import login  from './controle/login.js';
+import bcrypt from 'bcrypt';
+import {isAuthenticated} from './middleware/auth.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,17 +19,27 @@ app.use(bodyParser.json());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 app.use(express.static(path.join(__dirname, '../public/')));
 
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
 
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/login.html'));
+
+});
+app.get('/home', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/home.html'));
 });
 
 app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/cadastro.html'));
 });
+app.get ('/teste', isAuthenticated,(req, res) => {
+    res.send('Acesso autorizado: Token válido!');
+});
+
 
 
 // prisma
@@ -40,7 +53,7 @@ app.get('/cadastro', (req, res) => {
 })();
 
 // criar um card
-app.post('/cards', async (req, res) => {
+app.post('/cards',isAuthenticated, async (req, res) => {
     const { titulo, descricao } = req.body;
 
     if (!titulo || !descricao) {
@@ -67,27 +80,29 @@ app.post('/cadastro', async (req, res) => {
 
     if (!name || !email || !password) {
         return res.status(400).json({ error: 'Título e descrição são obrigatórios' });
-    }
+    } const hash = await bcrypt.hash(password, 10);
 
     try {
         const user = await prisma.user.create({
             data: {
                 name,
                 email,
-                password,
+                password: hash,
             },
         });
         res.status(201).json(user);
+        
     } catch (error) {
         console.error('Erro ao inserir o user no banco de dados:', error);
         res.status(500).json({ error: 'Erro ao inserir o user no banco de dados' });
     }
 });
-
+//login
+app.post('/', login);      
 
 
 //mostra os cards
-app.get('/cards', async (req, res) => {
+app.get('/cards',isAuthenticated, async (req, res) => {
     try {
         const cards = await prisma.card.findMany();
         res.json(cards);
@@ -97,7 +112,10 @@ app.get('/cards', async (req, res) => {
     }
 });
 
-app.post
+
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const cardForm = document.getElementById('cardForm');
     const cardsContainer = document.getElementById('cardsContainer');
-
+    const token = localStorage.getItem('token');
    
     const createCard = (titulo, descricao) => {
         const novoCard = document.createElement('div');
@@ -47,10 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Envia para o srver
+        
+
         fetch('/cards', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+                
             },
             body: JSON.stringify({ titulo, descricao })
         })
@@ -68,3 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     fetchCards();
 });
+
+function logout() {
+    localStorage.removeItem('token');
+    window.location.href = './login.html'; 
+}
