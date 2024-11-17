@@ -37,7 +37,7 @@ app.get('/cadastro', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/cadastro.html'));
 });
 app.get ('/teste', isAuthenticated,(req, res) => {
-    res.send('Acesso autorizado: Token válido!');
+    res.sendFile(path.join(__dirname, '../public/teste.html'));
 });
 
 
@@ -102,7 +102,7 @@ app.post('/', login);
 
 
 //mostra os cards
-app.get('/cards',isAuthenticated, async (req, res) => {
+app.get('/cards', async (req, res) => {
     try {
         const cards = await prisma.card.findMany();
         res.json(cards);

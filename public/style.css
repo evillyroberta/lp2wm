@@ -13,7 +13,7 @@ body {
     min-height: 100vh;
 }
 
-/* Menu ocupa a parte superior da tela */
+
 nav {
     background-color: #370d5f;
     width: 100%;
@@ -32,7 +32,7 @@ nav {
 }
 
 .menu li {
-    flex: 1; /* Cada item ocupa a mesma fração do menu */
+    flex: 1; 
     text-align: center;
 }
 
@@ -48,13 +48,13 @@ nav {
     border-radius: 5px;
 }
 
-/* Contêiner principal abaixo do menu */
+
 .container {
     width: 100%;
     max-width: 800px;
     background-color: #fff;
     padding: 20px;
-    margin-top: 20px; /* Espaço entre o menu e o contêiner */
+    margin-top: 20px; 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
 }
