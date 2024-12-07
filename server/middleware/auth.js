@@ -28,7 +28,7 @@ function isAuthenticated(req, res, next) {
 
     next();
   } catch (error) {
-    console.error('Token verification error:', error);
+    /*console.error('Token verification error:', error);*/
     res.status(401).send({ auth: false, message: 'Token invalid.' });
   }
 }

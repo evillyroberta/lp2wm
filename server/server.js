@@ -7,6 +7,9 @@ import { PrismaClient } from '@prisma/client';
 import login  from './controle/login.js';
 import bcrypt from 'bcrypt';
 import {isAuthenticated} from './middleware/auth.js';
+import { z } from 'zod';
+import { validate } from './middleware/validate.js';
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,13 +20,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
+// Rotas das telas 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, '../public/')));
-
-
-
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/login.html'));
@@ -53,50 +54,66 @@ app.get ('/teste', isAuthenticated,(req, res) => {
 })();
 
 // criar um card
-app.post('/cards',isAuthenticated, async (req, res) => {
-    const { titulo, descricao } = req.body;
-
-    if (!titulo || !descricao) {
-        return res.status(400).json({ error: 'Título e descrição são obrigatórios' });
-    }
-
-    try {
+app.post(
+    '/cards',
+    isAuthenticated,
+    validate(
+      z.object({
+        body: z.object({
+          titulo: z.string().max(10, 'só 10 caracteres'), 
+          descricao: z.string(), 
+        }),
+      })
+    ),
+    async (req, res) => {
+      const { titulo, descricao } = req.body;
+  
+      try {
         const card = await prisma.card.create({
-            data: {
-                titulo,
-                descricao,
-            },
+          data: {
+            titulo,
+            descricao,
+          },
         });
         res.status(201).json(card);
-    } catch (error) {
+      } catch (error) {
         console.error('Erro ao inserir o card no banco de dados:', error);
         res.status(500).json({ error: 'Erro ao inserir o card no banco de dados' });
+      }
     }
-});
+  );
 
 // criar um user
-app.post('/cadastro', async (req, res) => {
-    const { name, email, password  } = req.body;
-
-    if (!name || !email || !password) {
-        return res.status(400).json({ error: 'Título e descrição são obrigatórios' });
-    } const hash = await bcrypt.hash(password, 10);
-
-    try {
+app.post(
+    '/cadastro',
+    validate(
+      z.object({
+        body: z.object({
+          name: z.string().min(1, 'O nome é obrigatório'),
+          //email: z.string().email('E-mail inválido'),
+          password: z.string(),
+        }),
+      })
+    ),
+    async (req, res) => {
+      try {
+        const { name, email, password } = req.body;
+        const hash = await bcrypt.hash(password, 10);
         const user = await prisma.user.create({
-            data: {
-                name,
-                email,
-                password: hash,
-            },
+          data: {
+            name,
+            email,
+            password: hash,
+          },
         });
         res.status(201).json(user);
-        
-    } catch (error) {
-        console.error('Erro ao inserir o user no banco de dados:', error);
-        res.status(500).json({ error: 'Erro ao inserir o user no banco de dados' });
+      } catch (error) {
+        console.error('Erro ao inserir o usuário no banco de dados:', error);
+        res.status(500).json({ error: 'Erro ao inserir o usuário no banco de dados' });
+      }
     }
-});
+  );
+
 //login
 app.post('/', login);      
 

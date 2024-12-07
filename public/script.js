@@ -4,22 +4,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
    
     const createCard = (titulo, descricao) => {
-        const novoCard = document.createElement('div');
-        novoCard.classList.add('card');
+        if (titulo && descricao) {  // Verificao se titulo e descricao são válidos
+            const novoCard = document.createElement('div');
+            novoCard.classList.add('card');
 
-        const tituloElement = document.createElement('h3');
-        tituloElement.innerText = titulo;
+            const tituloElement = document.createElement('h3');
+            tituloElement.innerText = titulo;
 
-        const descricaoElement = document.createElement('p');
-        descricaoElement.innerText = descricao;
+            const descricaoElement = document.createElement('p');
+            descricaoElement.innerText = descricao;
 
-        novoCard.appendChild(tituloElement);
-        novoCard.appendChild(descricaoElement);
+            novoCard.appendChild(tituloElement);
+            novoCard.appendChild(descricaoElement);
 
-        cardsContainer.appendChild(novoCard);
+            cardsContainer.appendChild(novoCard);
+        } else {
+            console.error('Erro: Título ou descrição são indefinidos');
+            alert('Erro: Título ou descrição inválidos.');
+        }
     };
 
-    
     const fetchCards = () => {
         fetch('/cards')
             .then(response => response.json())
@@ -31,10 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch(error => {
                 console.error('Erro ao buscar os cards:', error);
+                alert('Erro ao carregar os cards.');
             });
     };
 
-    // fazer o card
+    // Fazer o card
     cardForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -46,31 +51,32 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Envia para o srver
-        
-
+        // Envia para o servidor
         fetch('/cards', {
             method: 'POST',
             headers: {
-                
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-                
             },
             body: JSON.stringify({ titulo, descricao })
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Card salvo no banco de dados:', data);
-            createCard(data.titulo, data.descricao);
-            cardForm.reset();
+            if (data.titulo && data.descricao) {
+                console.log('Card salvo no banco de dados:', data);
+                createCard(data.titulo, data.descricao);
+                cardForm.reset();
+            } else {
+                console.error('Erro ao criar o card: Título ou descrição indefinidos');
+                alert('Erro ao criar o card. Dados inválidos.');
+            }
         })
         .catch(error => {
             console.error('Erro ao salvar o card:', error);
+            alert('Erro ao salvar o card.');
         });
     });
 
-    
     fetchCards();
 });
 
