@@ -8,7 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
 
-        
+        const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+        if (!emailRegex.test(email)) {
+            alert('coloque um email válido');
+            return;
+        }
+
+
         fetch('/cadastro', {
             method: 'POST',
             headers: {
@@ -18,9 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
         })
             .then(response => response.json())
             .then(data => {
-                if (data.error) {
+               if
+                 (data.error) {
                     alert('Erro: ' + data.error);
-                } else {
+                }
+                else {
                     alert('Cadastro realizado com sucesso!');
                 }
             })

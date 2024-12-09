@@ -89,8 +89,8 @@ app.post(
     validate(
       z.object({
         body: z.object({
-          name: z.string().min(1, 'O nome é obrigatório'),
-          //email: z.string().email('E-mail inválido'),
+          name: z.string().min(5, 'min. 1'),
+          email: z.string().email('E-mail inválido'),
           password: z.string(),
         }),
       })
