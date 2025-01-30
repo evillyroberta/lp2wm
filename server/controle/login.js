@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import SendMail from './../services/SendMail.js';
 
 dotenv.config();
 
@@ -30,12 +31,18 @@ async function login(req, res) {
         if (!isValidPassword) {
             return res.status(401).json({ message: 'Senha incorreta' });
         }
-       const token = jwt.sign(
-            { id: dbUser.id }, 
-            SECRET, { expiresIn: '1h' });
-            console.log("Token gerado:", token);
-            res.json({ token });
 
+        const token = jwt.sign(
+            { id: dbUser.id },
+            SECRET,
+            { expiresIn: '1h' }
+        );
+        console.log("Token gerado:", token);
+
+        
+        await SendMail.nvlogin(email);
+
+        res.json({ token });
     } catch (error) {
         console.error('Erro ao realizar login:', error);
         res.status(500).json({ message: 'Erro interno no servidor' });

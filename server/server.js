@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import {isAuthenticated} from './middleware/auth.js';
 import { z } from 'zod';
 import { validate } from './middleware/validate.js';
+import SendMail from './services/SendMail.js';
 
 
 const app = express();
@@ -67,12 +68,17 @@ app.post(
     ),
     async (req, res) => {
       const { titulo, descricao } = req.body;
+
+      if (!req.userId) { 
+        return res.status(401).json({ error: 'Usuário não autenticado.' }); 
+      }
   
       try {
         const card = await prisma.card.create({
           data: {
             titulo,
             descricao,
+            userId: req.userId,
           },
         });
         res.status(201).json(card);
@@ -106,6 +112,9 @@ app.post(
             password: hash,
           },
         });
+        //email aqui
+        await SendMail.createNewUser(user.email);
+
         res.status(201).json(user);
       } catch (error) {
         console.error('Erro ao inserir o usuário no banco de dados:', error);

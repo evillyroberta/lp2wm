@@ -15,7 +15,7 @@ body {
 
 
 nav {
-    background-color: #370d5f;
+    background-color: #63049b;
     width: 100%;
     padding: 10px 0;
     position: sticky;
@@ -49,15 +49,21 @@ nav {
 }
 
 
-.container {
-    width: 100%;
+.container {    width: 100%;
     max-width: 800px;
     background-color: #fff;
-    padding: 20px;
-    margin-top: 20px; 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-}
+    padding: 24px;
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+
+   
+    &:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        transform: translateY(-3px);
+    
+}}
 
 h1 {
     font-family: Comic Sans MS, cursive, sans-serif; 
