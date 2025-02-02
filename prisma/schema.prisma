@@ -19,12 +19,22 @@ model User {
   email    String @unique
   password String
   cards    Card[]
+  image       Image?
+}
+
+model Image {
+  id     Int @id @default(autoincrement())
+  path   String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int @unique
 }
 
 model Card {
   id        Int    @id @default(autoincrement())
   titulo    String
   descricao String
+ 
+
 
   User   User? @relation(fields: [userId], references: [id])
   userId Int?

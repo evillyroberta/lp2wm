@@ -1,21 +1,24 @@
+/* Resetando margens e padding */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Estilo para o body */
 body {
     font-family: Arial, sans-serif;
     background-image: url(image.png);
     display: flex;
+    background-size: cover;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
 }
 
-
+/* Navbar */
 nav {
-    background-color: #63049b;
+    background-color: #3d0666;
     width: 100%;
     padding: 10px 0;
     position: sticky;
@@ -25,7 +28,7 @@ nav {
 .menu {
     list-style-type: none;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start; /* Itens à esquerda */
     width: 100%;
     margin: 0;
     padding: 0;
@@ -36,11 +39,19 @@ nav {
     text-align: center;
 }
 
+/* Alinhando "Cadastro" e "Usuário" à direita */
+.menu li:last-child {
+    margin-left: auto; /* Alinha os itens à direita */
+}
+
 .menu a {
     display: block;
-    padding: 10px 0;
+    padding: 20px 0;
     color: white;
+    font-size: 28px;
     text-decoration: none;
+    font-weight: 100;
+    font-family: system-ui;
 }
 
 .menu a:hover {
@@ -49,7 +60,66 @@ nav {
 }
 
 
-.container {    width: 100%;
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown .dropbtn {
+  background-color: #3d0666;
+  color: white;
+  padding: 14px 20px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+   flex-direction: row-reverse;
+  align-items: center;
+}
+
+.dropdown .dropbtn:hover {
+  background-color: #66097236;
+  color: black;
+}
+
+.dropdown .user-img {
+  width: 60px;    
+  height: 60px;  
+  border-radius: 50%; 
+  object-fit: cover; 
+  margin-right: 10px; 
+}
+
+/* Dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #3d0666;
+  min-width: 160px;
+  z-index: 1;
+    border-radius: 5px;
+    right: 0;
+}
+
+.dropdown-content a {
+  color: white;
+  font-size:24px;
+  padding: 10px 12px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Estilo para o título e container */
+.container {
+    width: 100%;
     max-width: 800px;
     background-color: #fff;
     padding: 24px;
@@ -57,16 +127,16 @@ nav {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 12px;
     transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
 
-   
-    &:hover {
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-        transform: translateY(-3px);
-    
-}}
+.container:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
 
+/* Estilo para os cabeçalhos */
 h1 {
-    font-family: Comic Sans MS, cursive, sans-serif; 
+    font-family: Comic Sans MS, cursive, sans-serif;
     text-align: left;
     margin-left: 10px;
     margin-bottom: 15px;
@@ -74,13 +144,14 @@ h1 {
 }
 
 h2 {
-    font-family: Comic Sans MS, cursive, sans-serif; 
+    font-family: Comic Sans MS, cursive, sans-serif;
     text-align: left;
     margin-left: 580px;
     margin-bottom: 15px;
     color: #fff;
 }
 
+/* Estilo para formulários */
 form {
     display: flex;
     flex-direction: column;
@@ -95,6 +166,7 @@ input, textarea {
     border: 1px solid #ccc;
 }
 
+/* Estilo para os botões */
 button {
     padding: 10px;
     background-color: #402188;
@@ -109,12 +181,14 @@ button:hover {
     background-color: #5e2ccf;
 }
 
+/* Estilo para o container de cards */
 .cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
 }
 
+/* Estilo para os cards */
 .card {
     background-color: #fff;
     border: 1px solid #ccc;

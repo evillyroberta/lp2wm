@@ -9,32 +9,47 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
+<body>
     <nav>
         <ul class="menu">
-            <li><a href="#home"><h1> Meus Lembretes</h1></a></li>
-            <li><a href="./cadastro.html">cadastro</a></li>
+            <li><a href="#home"><h1>Meus Lembretes</h1></a></li>
+           <!-- <li><a href="./cadastro.html">Cadastro</a></li>-->
             <!--<li><a href="./teste.html">teste do token</a></li>-->
-            <li><a href="#" onclick="logout()">Sair</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropbtn"> <span id="user-name">Nome do Usuário</span>
+                  <img   id="user-image" src="" alt="User Image" class="user-img">
+                  
+                </a>
+                <div class="dropdown-content">
+                  <a href="perfil.html">Perfil</a>
+                  <a href="login.html" onclick="signout()" >Sair</a>
+                  
+                </div>
+              </li>
+          
         </ul>
     </nav>
-<body>
 
     <div class="container">
-       
         <form id="cardForm">
             <input type="text" id="titulo" name="titulo" placeholder="Título do card" required>
-            <textarea id="descricao" name= "descricao" placeholder="Descrição do card" required></textarea>
+            <textarea id="descricao" name="descricao" placeholder="Descrição do card" required></textarea>
             <button type="submit">Adicionar Card</button>
         </form>
 
         <div id="cardsContainer" class="cards-container">
-           
+            <!-- Cards serão exibidos aqui -->
         </div>
     </div>
 
+    <!-- Dependências do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+
     <script src="script.js">
-
-
+        document.getElementById("user-name").innerText = user.name;
+     
+        document.getElementById("user-image").src = user.image;
     </script>
 </body>
 </html>

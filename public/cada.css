@@ -11,6 +11,7 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    background-size: cover;
 }
 
 /* Menu ocupa a parte superior da tela */
@@ -38,9 +39,11 @@ nav {
 
 .menu a {
     display: block;
-    padding: 10px 0;
+    padding: 20px 0;
     color: white;
     text-decoration: none;
+    font-weight: 100;
+    font-family: system-ui;
 }
 
 .menu a:hover {
@@ -83,7 +86,7 @@ form {
 
 input, textarea {
     padding: 10px;
-    font-size: 16px;
+    font-size: 20px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
@@ -95,7 +98,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 24px;
 }
 
 button:hover {

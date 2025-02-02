@@ -80,7 +80,21 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchCards();
 });
 
+fetch("/api/user", {
+    headers: {
+        "Authorization": `Bearer ${localStorage.getItem("token")}` 
+    }
+})
+.then(response => response.json())
+.then(data => {
+    document.getElementById("user-name").innerText = data.name;
+    
+    document.getElementById("user-image").src = data.image ;
+})
+.catch(error => console.error("Erro ao buscar dados do usuário:", error));
+
 function logout() {
     localStorage.removeItem('token');
     window.location.href = './login.html'; 
 }
+
