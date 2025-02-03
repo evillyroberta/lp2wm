@@ -14,8 +14,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const descricaoElement = document.createElement('p');
             descricaoElement.innerText = descricao;
 
+            const downloadButton = document.createElement('button1');
+            const img = document.createElement('img'); 
+            img.src = 'baixar.png'; 
+            img.alt = 'Baixar'; 
+            img.style.width = '50px'; 
+            img.style.height = 'auto'; 
+
+downloadButton.appendChild(img);
+           
+            downloadButton.addEventListener('click', () => downloadCard(titulo, descricao));
+
             novoCard.appendChild(tituloElement);
             novoCard.appendChild(descricaoElement);
+            novoCard.appendChild(downloadButton);
 
             cardsContainer.appendChild(novoCard);
         } else {
@@ -97,4 +109,17 @@ function logout() {
     localStorage.removeItem('token');
     window.location.href = './login.html'; 
 }
+//teste
+
+const downloadCard = (titulo, descricao) => {
+    const cardContent = `Título: ${titulo}\nDescrição: ${descricao}`;
+
+    const blob = new Blob([cardContent], { type: 'text/plain' });
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `${titulo}.txt`;
+    link.click();
+};
+
 

@@ -11,11 +11,16 @@
         <img id="user-image" src="" >
         <h2 id="user-name">Nome do Usuário</h2>
         <p id="user-email">email@example.com</p>
-        <button onclick="logout()">Sair</button>
+
+       
+        
         <button onclick="window.location.href = 'home.html'">Voltar</button>
     </div>
 
     <script src="perfil.js">
+
+            const defaultImage = 'user.png';
+
 
         document.getElementById("user-name").innerText = user.name;
         document.getElementById("user-email").innerText = user.email;

@@ -182,18 +182,20 @@ app.get('/api/user', isAuthenticated, async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'Usuário não encontrado' });
     }
+    const defaultImage = 'user.png';
 
     res.json({
       id: user.id,
       name: user.name,
       email: user.email,
-      image: user.image ? `${user.image.path}` : null, 
+      image: user.image ? `${user.image.path}` : defaultImage, 
     });
   } catch (error) {
     console.error('Erro ao buscar usuário:', error);
     res.status(500).json({ error: 'Erro interno no servidor' });
   }
 });
+
 
 
 
