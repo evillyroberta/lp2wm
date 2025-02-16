@@ -56,7 +56,7 @@ app.get ('/teste', isAuthenticated, (req, res) => {
 // Rota de Cadastro
 app.post(
   '/cadastro',
-  upload.single('image'), // Processa o arquivo de imagem com multer
+  upload.single('image'), 
   validate(
     z.object({
       body: z.object({
@@ -69,11 +69,7 @@ app.post(
   async (req, res) => {
     try {
       const { name, email, password } = req.body;
-
-      // Criptografando a senha
       const hash = await bcrypt.hash(password, 10);
-
-      // Criando o usuário no banco de dados
       const user = await prisma.user.create({
         data: {
           name,
@@ -82,21 +78,18 @@ app.post(
         },
       });
 
-      // Verifica se há arquivo de imagem
       if (req.file) {
-        // Caminho relativo da imagem após o upload
         const imagePath = path.join('imgs', 'profile', req.file.filename); 
-        // Criação da imagem no banco de dados
+
         const createdImage = await prisma.image.create({
           data: {
-            path: imagePath, // Salva o caminho relativo da imagem
+            path: imagePath, 
             user: {
               connect: { id: user.id }, 
             },
           },
         });
 
-        
         await prisma.user.update({
           where: { id: user.id },
           data: {
@@ -107,12 +100,15 @@ app.post(
         });
       }
 
-      
       await SendMail.createNewUser(user.email);
 
       res.status(201).json(user);
     } catch (error) {
-      console.error('Erro ao inserir o usuário no banco de dados:', error);
+     
+
+      if (error.code === 'P2002') {
+        return res.status(400).json({ error: 'Email já está em uso.' });
+      }
       res.status(500).json({ error: 'Erro ao inserir o usuário no banco de dados' });
     }
   }
@@ -202,3 +198,5 @@ app.get('/api/user', isAuthenticated, async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+export default app;
